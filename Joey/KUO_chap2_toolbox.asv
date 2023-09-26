@@ -1,16 +1,11 @@
-%%  S5 - APP3 - PROBLEMATIQUE - XXXXXX_XXXXXXX_XXXXXXX.M
+%%  S5 - APP3 - KUO_chap2_toolbox.M
 %   Auteur:     Giuseppe Lomonaco
 %   CIP:        LOMG2301
-%   Auteur:     Jean Dodie Ombeni
-%   CIP:        OMBJ2301
-%   Auteur:     Anthony Royer
-%   CIP:        ROYA2019
 
 %   Date de creation:                       26-Septembre-2023
 %   Date de derniere modification:          26-Septembre-2023
 
-%   DESCRIPTION:    fffffffffffffffffffffffffffffffffffffffffffffffffffff
-%                   ggggggggggggggggggggggggggggggggggggggggggggggggggggg
+%   DESCRIPTION:    toolbox given for MATLAB in the KUO chapiter 2
 
 clc
 close all
@@ -28,7 +23,6 @@ disp("-----------------------------------------------------------")
 disp("TOOLBOX 2-4-1 - FINDING THE LAPLACE TRANSFORM WITH SYMBOLIC")
 disp("-----------------------------------------------------------")
 fprintf("The Laplace transform of '%s' is '%s' with \n", f, F)
-disp("-----------------------------------------------------------")
 fprintf("\n\n")
 
 
@@ -36,13 +30,75 @@ fprintf("\n\n")
 
 
 %% toolbox 2-5-1 - 
-num = [5    3];             % numerator polynomial coefficients
-den = [1    6   11  6];     % denominator polynomial coefficients
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp("          TOOLBOX 2-5-1 - RESIDUE FONCTION")
+disp("-----------------------------------------------------------")
+num = [5    3]            % numerator polynomial coefficients
+den = [1    6   11  6]     % denominator polynomial coefficients
 
 disp("you can calculate the partial fraction expansion as:") 
 [r, p, k] = residue(num, den)
 
-disp("now convert the partial fraction expansion back to polynomial
-% coefficients
+disp("now convert the partial fraction expansion back to polynomial coefficients")
 [num2, den2] = residue(r, p, k)
+
+disp("Note that the result is normalized for the leading coefficients in the denominator")
+fprintf("\n\n")
+
+
+
+
+
+%% TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp("          TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL")
+disp("-----------------------------------------------------------")
+disp("Coefficients of polynomial s^4 + 5*s^3 + 9*s^2 + 7*s + 2 (DENOMINATOR)")
+den = [1  5   9   7   2]
+disp("-----------------------------------------------------------")
+
+disp("Polynomial coefficients of the numerator")
+num = [1]
+disp("-----------------------------------------------------------")
+
+disp("Using residue function")
+[r, p, k] = residue(num, den)
+disp("-----------------------------------------------------------")
+
+disp("Obtain the polynomial form")
+[num2, den2] = residue(r, p, k)
+disp("-----------------------------------------------------------")
+
+
+
+
+
+
+
+%% TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION")
+disp("-----------------------------------------------------------")
+disp("The inverse Laplace transform for the following equation is")
+disp("obtained using MATLAB Symbolic Toolbox by the following")
+disp("sequence of MATLAB functions. (using s and tau as syms)")
+
+syms s tau
+disp("The inverse laplace of  1/(tau*s^2 + s)  is: ")
+ilaplace(1/(tau*s^2 + s))
+
+
+
 

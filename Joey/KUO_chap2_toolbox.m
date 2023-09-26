@@ -30,6 +30,10 @@ fprintf("\n\n")
 
 
 %% toolbox 2-5-1 - 
+clc
+close all
+clear all
+
 disp("-----------------------------------------------------------")
 disp("          TOOLBOX 2-5-1 - RESIDUE FONCTION")
 disp("-----------------------------------------------------------")
@@ -49,4 +53,79 @@ fprintf("\n\n")
 
 
 
-%% TOOLBOX 
+%% TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp("          TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL")
+disp("-----------------------------------------------------------")
+disp("Coefficients of polynomial s^4 + 5*s^3 + 9*s^2 + 7*s + 2 (DENOMINATOR)")
+den = [1  5   9   7   2]
+disp("-----------------------------------------------------------")
+
+disp("Polynomial coefficients of the numerator")
+num = [1]
+disp("-----------------------------------------------------------")
+
+disp("Using residue function")
+[r, p, k] = residue(num, den)
+disp("-----------------------------------------------------------")
+
+disp("Obtain the polynomial form")
+[num2, den2] = residue(r, p, k)
+disp("-----------------------------------------------------------")
+
+
+
+
+
+
+
+%% TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION")
+disp("-----------------------------------------------------------")
+disp("The inverse Laplace transform for the following equation is")
+disp("obtained using MATLAB Symbolic Toolbox by the following")
+disp("sequence of MATLAB functions. (using s and tau as syms)")
+
+syms s tau
+F = 1/(tau*s^2 + s);
+f = ilaplace(F);
+fprintf("\nThe inverse laplace transform of  '%s'  is  '%s' \n", F, f)
+disp("-----------------------------------------------------------")
+
+disp("Time response shown next for a given value r=0.1 the graph is obtained")
+
+
+
+clear all
+t = 0:0.01:1;
+tau = 0.1;
+plot(1-exp(-t/tau));
+
+
+disp("You see that at t = 0.1,  y(t) = 0.63 ")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
