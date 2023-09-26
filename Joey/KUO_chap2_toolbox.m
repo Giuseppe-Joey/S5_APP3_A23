@@ -30,9 +30,9 @@ fprintf("\n\n")
 
 
 %% toolbox 2-5-1 - 
-clc
-close all
-clear all
+% clc
+% close all
+% clear all
 
 disp("-----------------------------------------------------------")
 disp("          TOOLBOX 2-5-1 - RESIDUE FONCTION")
@@ -54,9 +54,9 @@ fprintf("\n\n")
 
 
 %% TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL
-clc
-close all
-clear all
+% clc
+% close all
+% clear all
 
 disp("-----------------------------------------------------------")
 disp("          TOOLBOX 2-5-2 - RATIO OF 2 POLYNOMIAL")
@@ -84,9 +84,9 @@ disp("-----------------------------------------------------------")
 
 
 %% TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION
-clc
-close all
-clear all
+% clc
+% close all
+% clear all
 
 disp("-----------------------------------------------------------")
 disp(" TOOLBOX 2-6-1 - USING THE INVERSE LAPLACE FUNCTION")
@@ -122,10 +122,47 @@ disp("You see that at t = 0.1,  y(t) = 0.63 ")
 
 
 
+%% TOOLBOX 2-6-2 - TIME RESPONSE FOR A UNIT-STEP INPUT
+% clc
+% close all
+% clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-6-2 - TIME RESPONSE FOR A UNIT-STEP INPUT")
+disp("-----------------------------------------------------------")
+
+num = [1000];
+den = [1    34.5    1000];
+
+G = tf(num, den);
+
+step(G)
+title('Step Response')
+xlabel('Time (sec)')
+ylabel('Amplitude')
 
 
 
 
 
 
+
+
+
+
+%% TOOLBOX 2-7-1 - UNIT IMPULSE RESPONSE
+% clc
+% close all
+% clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-7-1 - UNIT IMPULSE RESPONSE")
+disp("-----------------------------------------------------------")
+
+num = [1000];
+den = [1    34.5    1000];
+
+G = tf(num, den);
+
+impulse(G);
 

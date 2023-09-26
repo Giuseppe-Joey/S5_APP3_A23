@@ -96,9 +96,69 @@ disp("obtained using MATLAB Symbolic Toolbox by the following")
 disp("sequence of MATLAB functions. (using s and tau as syms)")
 
 syms s tau
-disp("The inverse laplace of  1/(tau*s^2 + s)  is: ")
-ilaplace(1/(tau*s^2 + s))
+F = 1/(tau*s^2 + s);
+f = ilaplace(F);
+fprintf("\nThe inverse laplace transform of  '%s'  is  '%s' \n", F, f)
+disp("-----------------------------------------------------------")
+
+disp("Time response shown next for a given value r=0.1 the graph is obtained")
 
 
 
+clear all
+t = 0:0.01:1;
+tau = 0.1;
+plot(1-exp(-t/tau));
+
+
+disp("You see that at t = 0.1,  y(t) = 0.63 ")
+
+
+
+
+
+
+
+
+
+
+%% TOOLBOX 2-6-2 - TIME RESPONSE FOR A UNIT-STEP INPUT
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-6-2 - TIME RESPONSE FOR A UNIT-STEP INPUT")
+disp("-----------------------------------------------------------")
+
+num = [1000];
+den = [1    34.5    1000];
+
+G = tf(num, den);
+
+step(G)
+title('Step Response')
+xlabel('Time (sec)')
+ylabel('Amplitude')
+
+
+
+
+
+
+
+
+
+
+%% TOOLBOX 2-7-1 - UNIT IMPULSE RESPONSE
+clc
+close all
+clear all
+
+disp("-----------------------------------------------------------")
+disp(" TOOLBOX 2-7-1 - UNIT IMPULSE RESPONSE")
+disp("-----------------------------------------------------------")
+
+num = [1000];
+den = 1 
 
