@@ -12,7 +12,7 @@ close all
 clear 
 
 
-%% toolbox 2-4-1
+%% TOOLBOX 2-4-1 - Use the MATLAB symbolic toolbox
 % Use the MATLAB symbolic toolbox to find the Laplace transforms.
 syms t
 f = t^4;
@@ -29,7 +29,7 @@ fprintf("\n\n")
 
 
 
-%% toolbox 2-5-1 - 
+%% TOOLBOX 2-5-1 - RESIDUE FONCTION
 % clc
 % close all
 % clear all
