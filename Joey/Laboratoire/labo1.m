@@ -117,3 +117,28 @@ num_reduit_2 = num_reduit * (gain_0/gain_reduit)
 
 
 
+
+
+
+
+
+
+%% EXERCICE 4
+
+
+
+
+
+
+
+
+
+
+%% EXERCICE 5
+
+
+
+
+
+
+
