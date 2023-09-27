@@ -12,7 +12,10 @@ clc
 close all
 clear 
 
+% Contrôles du comportement du code
 showImportedData = 0;
+showFigures = 1;
+
 %% Probleme 1 - Moindres Carrés
 disp("=================================")
 disp("=========== Problème 1 ==========")
@@ -20,7 +23,7 @@ disp("=================================")
 load DonneesIdentifSyst1erOrdre_1.mat
 
 if showImportedData == 1
-    figure()
+    figure('Name','DonneesIdentifSyst1erOrdre_1')
     plot(t,y)
     grid on
 end
@@ -58,6 +61,7 @@ tf_SysDynFlex = tf(num_SysDynFlex, den_SysDynFlex);
 tf_DynCap = tf(num_DynCap,den_DynCap);
 
 %% (A) - Trouver la fonction de transfert entre u(t) et y(t) avec series
+% Fonctions Matlab utiles : tf series parallel residue dcgain step
 tf_complet = series(tf_DynAct,series(tf_SysDynFlex,tf_DynCap))
 [num_complet, den_complet] = tfdata(tf_complet, 'v');
 figure('Name','Pôles-Zeros')
@@ -72,6 +76,49 @@ disp(" ")
 poids = abs(Residus2)./real(Poles2)
 % Step 3 - Calculer la fonction de transfert du sys reduit déterminé a
 % partir des poles dominants
+
+% Selon le output de mon poids, je prends les 5e et 6e
+% on recrée la fonction mais en gardant juste le plus important
+[num_reduit,den_reduit] = residue(Residus2(5:6),Poles2(5:6),K2);
+tf_reduit = tf(num_reduit,den_reduit);
+
+% Step 4 - Correction du gain DC du systeme reduit
+gain_initial = dcgain(num_complet, den_complet);
+gain_reduit = dcgain(num_reduit,den_reduit);
+gain_rapport = gain_initial/gain_reduit;
+num_reduit2 = num_reduit*gain_rapport;
+tf_reduit2 = tf(num_reduit2,den_reduit)
+
+%% (C) - Comparer la réponse des deux systèmes à un échelon
+figure('Name','Lab1 Prob 2')
+hold on
+stepplot(tf_complet)
+stepplot(tf_reduit2)
+hold off
+grid on
+
+%% Probleme 3 - Équations differentielles
+disp("=================================")
+disp("=========== Problème 3 ==========")
+disp("=================================")
+% Fonctions Matlab utiles : tf lsim tf2ss
+t3 = [0:0.01:25]';
+u3 = zeros(size(t3));
+u3((t3 >= 0) &(t3 < 2)) = 2;
+u3((t3 >= 2)) = 0.5;
+
+% Une fonction de transfert est l'entrée sur la sortie, donc 
+num6 = [1 2];
+den6 = [1 1 0.25];
+tf6 = tf(num6,den6);
+
+% [A,B,C,D] = tf2ss(num6,den6);
+Ymat2 = lsim(tf6,u3,t3);
+
+figure('Name','Probleme 3')
+plot(t3,Ymat2)
+grid on;
+
 
 
 
