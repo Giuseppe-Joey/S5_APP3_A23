@@ -13,7 +13,7 @@
 
 clc
 close all
-clear 
+clear all
 
 
 

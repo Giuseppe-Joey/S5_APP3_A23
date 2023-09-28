@@ -9,7 +9,9 @@
 %   Vecteur temps, t: 5001x1
 %   Vecteur entrée,Fext: 5001x1
 %   Vecteur sortie,x: 5001x1
-    close all; clear all
+    close all
+    clear all
+
     load DonneesIdentifMasseRessortAmorti
 
     figure
