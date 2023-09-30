@@ -49,6 +49,44 @@ fprintf("    BL             %.0f             N-m/rad/s       frottement visqueux
 
 
 
+
+
+%% Construction du modele ABCD
+A = [0          1                                               0                           0;
+    0           -(Bm+(N^2)*BL)/(Jm+(N^2)*JL)        N*Ki/(Jm+(N^2)*JL)                      0;
+    0           -Kb/(La*N)                                      -Ra/La                      1/La;
+    0           0                                                0                           -1/tau];
+
+B = [   0;
+        0;
+        0;
+        K/tau];
+
+C = [1      0       0       0];
+
+D = [0];
+
+% on utilise ss2tf pour avoir le num et den de la fonction de transfert
+[num, den] = ss2tf(A, B, C, D);
+FTBO = tf(num, den)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 load donnees_moteur_2016.mat
 
 
