@@ -49,10 +49,23 @@ fprintf("    BL             %.0f             N-m/rad/s       frottement visqueux
 
 
 
+load donnees_moteur_2016.mat
 
 
 
 
+figure
+plot(vitesse)
+title("Vitesse en fonction du temps")
+legend("Vitesse")
+xlabel("Temps en s")
+ylabel("Vitesse en m/s")
+
+
+num = tension';
+den = vitesse';
+
+FT1 = tf(num, den);
 
 
 
