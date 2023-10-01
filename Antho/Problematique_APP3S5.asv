@@ -37,10 +37,11 @@ FTBO = tf(NUM1,DEN1)
 numa = [K];
 dena = [tau 1];
 numb = [N*Ki];
-denb = [(JmN2Jl*La) (Ra*JmN2Jl + La*BmN2Bl) (BmN2Bl*Ra + Ki*Kb) 0];
+denb = [ 0];
+denc = [JmN2Jl BmN2Bl];
 
-tfa = tf(numa,dena);
-tfb = tf(numb/2.4e-06,denb/2.4e-06);
-FTBO_main = tfa*tfb
+tfa = tf(numa,dena)
+tfb = tf(numb,denb)
+tf_main = tfa*tfb
 
 
