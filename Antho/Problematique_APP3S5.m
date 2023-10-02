@@ -31,6 +31,7 @@ D1 = [0];
 %FTBF et FTBO numerique
 [NUM1,DEN1] = ss2tf(A1,B1,C1,D1);
 FTBO = tf(NUM1,DEN1)
+FTBF = Kp*feedback(FTBO, Kp) % Kp gain de potentiometre donc lentre et le feedback est touche
 
 
 
