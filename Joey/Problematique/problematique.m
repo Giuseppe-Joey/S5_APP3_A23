@@ -72,16 +72,24 @@ D = [0];
 FTBO = tf(num, den)
 
 % FTBF = G(s) / 1 + G(s)
-FTBF = FTBO / 1 + FTBO
+% FTBF = FTBO / 1 + FTBO
 
 
 
 
 
+JmN2Jl = Jm + (N.^2)*JL;
+BmN2Bl = Bm + (N.^2)*BL;
 
 
+numa = [K];
+dena = [tau 1];
+numb = [N*Ki];
+denb = [(JmN2Jl*La) (Ra*JmN2Jl + La*BmN2Bl) (BmN2Bl*Ra + Ki*Kb) 0];
 
-
+tfa = tf(numa,dena)
+tfb = tf(numb*(1/2.4e-06),denb*(1/2.4e-06))
+FTBO_main = tfa*tfb
 
 
 
