@@ -7,7 +7,7 @@
 %   CIP:        ROYA2019
 
 %   Date de creation:                       30-Septembre-2023
-%   Date de derniere modification:          30-Septembre-2023
+%   Date de derniere modification:          01-Octobre-2023
 
 %   DESCRIPTION:    fffffffffffffffffffffffffffffffffffffffffffffffffffff
 %                   ggggggggggggggggggggggggggggggggggggggggggggggggggggg
@@ -55,7 +55,7 @@ fprintf("    BL             %.0f             N-m/rad/s       frottement visqueux
 A = [0          1                                               0                           0;
     0           -(Bm+(N^2)*BL)/(Jm+(N^2)*JL)        N*Ki/(Jm+(N^2)*JL)                      0;
     0           -Kb/(La*N)                                      -Ra/La                      1/La;
-    0           0                                                0                           -1/tau];
+    0           0                                                0                          -1/tau];
 
 B = [   0;
         0;
@@ -66,10 +66,30 @@ C = [1      0       0       0];
 
 D = [0];
 
+
 % on utilise ss2tf pour avoir le num et den de la fonction de transfert
 [num, den] = ss2tf(A, B, C, D);
 FTBO = tf(num, den)
 
+% FTBF = G(s) / 1 + G(s)
+% FTBF = FTBO / 1 + FTBO
+
+
+
+
+
+JmN2Jl = Jm + (N.^2)*JL;
+BmN2Bl = Bm + (N.^2)*BL;
+
+
+numa = [K];
+dena = [tau 1];
+numb = [N*Ki];
+denb = [(JmN2Jl*La) (Ra*JmN2Jl + La*BmN2Bl) (BmN2Bl*Ra + Ki*Kb) 0];
+
+tfa = tf(numa,dena)
+tfb = tf(numb*(1/2.4e-06),denb*(1/2.4e-06))
+FTBO_main = tfa*tfb
 
 
 
@@ -78,15 +98,7 @@ FTBO = tf(num, den)
 
 
 
-
-
-
-
-
-
-
-
-
+%% utilisation des donnees moteur fournies
 load donnees_moteur_2016.mat
 
 
@@ -98,7 +110,6 @@ title("Vitesse en fonction du temps")
 legend("Vitesse")
 xlabel("Temps en s")
 ylabel("Vitesse en m/s")
-
 
 num = tension';
 den = vitesse';
