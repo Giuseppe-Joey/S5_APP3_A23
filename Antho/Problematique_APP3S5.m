@@ -63,22 +63,35 @@ figure()
 pzmap(FTBO_a_bras)
 [R, P, Kq] = residue(NumBO,DenBO)
 poids = abs(R)./real(P)
-[B,A] = residue(R(3),P(3),Kq); %a modifier selon les poids
+[B,A] = residue(R(3:4),P(3:4),Kq); %a modifier selon les poids
 tfss = tf(B,A);
 K1 = dcgain(FTBO);
 K2 = dcgain(tfss);
 KK = K2/K1;
 Kn = 1/KK;
-TF = Kn*tfss
+TF = tfss
 
-figure()
+figure('Name','Réponse à un échelon')
 hold on
 subplot(2,1,1)
 step(FTBO)
+legend('FTBO')
+grid on
 subplot(2,1,2)
 step(TF)
-legend()
+legend('FTBO_reduite')
+grid on
 hold off
-figure()
-impulse(FTBO-TF)
+
+figure('Name','Réponse Impulsionnelle')
+hold on
+subplot(2,1,1)
+impulse(FTBO)
+legend('FTBO')
+grid on
+subplot(2,1,2)
+impulse(TF)
+legend('FTBO_reduite')
+grid on
+
 
