@@ -58,20 +58,23 @@ grid on
 
 
 
-%f) Reduction numerique:
-figure()
-pzmap(FTBO_a_bras)
+%f) 2 - Reduction numerique:
+figure('Name','PZmap FTBO')
+pzmap(FTBO)
 [R, P, Kq] = residue(NumBO,DenBO)
 poids = abs(R)./real(P)
 [B,A] = residue(R(3:4),P(3:4),Kq); %a modifier selon les poids
 tfss = tf(B,A);
-K1 = dcgain(FTBO);
-K2 = dcgain(tfss);
-KK = K2/K1;
-Kn = 1/KK;
+% On ne se sert pas de cela car FTBO instable
+% K1 = dcgain(FTBO);
+% K2 = dcgain(tfss);
+% KK = K2/K1;
+% Kn = 1/KK;
+% TF = tfss*Kn;
 TF = tfss
+FTBF_Red_num = Kp*feedback(tfss,Kp)
 
-figure('Name','Réponse à un échelon')
+figure('Name','Réponse à un échelon en BO')
 hold on
 subplot(2,1,1)
 step(FTBO)
@@ -83,7 +86,7 @@ legend('FTBO_reduite')
 grid on
 hold off
 
-figure('Name','Réponse Impulsionnelle')
+figure('Name','Réponse Impulsionnelle en BO')
 hold on
 subplot(2,1,1)
 impulse(FTBO)
@@ -94,4 +97,27 @@ impulse(TF)
 legend('FTBO_reduite')
 grid on
 
+% En BF
+figure('Name','Réponse à un échelon en BF')
+hold on
+subplot(2,1,1)
+step(FTBF)
+legend('FTBF')
+grid on
+subplot(2,1,2)
+step(FTBF_Red_num)
+legend('FTBF_reduite')
+grid on
+hold off
+
+figure('Name','Réponse Impulsionnelle en BF')
+hold on
+subplot(2,1,1)
+impulse(FTBF)
+legend('FTBF')
+grid on
+subplot(2,1,2)
+impulse(FTBF_Red_num)
+legend('FTBF_reduite')
+grid on
 
