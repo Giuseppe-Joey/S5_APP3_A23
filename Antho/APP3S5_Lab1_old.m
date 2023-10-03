@@ -50,7 +50,7 @@ pzmap(tf123)
 %(B) Réduire le modèle
 [numtot, dentot] = tfdata(tf123, 'v');
 [Residues1, Poles, K2] = residue(numtot,dentot);  
-poids = abs(Residues1)./real(Poles);
+poids = abs(Residues1)./real(Poles)
 %selon le output de mon poids, je prends les 5e et 6e
 %on recrée la fonction mais en gardant juste le plus important
 [num4,den4] = residue(Residues1(5:6),Poles(5:6),K2);

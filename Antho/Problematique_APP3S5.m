@@ -3,7 +3,6 @@ clear
 clc
 
 % Param
-
 Kp = 0.318;     % V/rad
 K = 100;        % gain ampli
 tau =  0.01;    % Cte de temps ampli (s)
@@ -34,7 +33,6 @@ FTBO = tf(NUM1,DEN1)
 FTBF = Kp*feedback(FTBO, Kp) % Kp gain de potentiometre donc lentre et le feedback est touche
 
 
-
 numa = [K];
 dena = [tau 1];
 numb = [N*Ki];
@@ -42,6 +40,45 @@ denb = [(JmN2Jl*La) (Ra*JmN2Jl + La*BmN2Bl) (BmN2Bl*Ra + Ki*Kb) 0];
 
 tfa = tf(numa,dena);
 tfb = tf(numb/2.4e-06,denb/2.4e-06);
-FTBO_main = tfa*tfb
+FTBO_a_bras = tfa*tfb
+[NumBO,DenBO] = tfdata(FTBO_a_bras, 'v');
+FTBF_a_bras = tf(Kp*NUM1,(DEN1 + Kp*NUM1))
 
+
+t = [0:0.01:50]';
+stepp = ones(size(t));
+
+% Affichage
+figure('Name','Simulation de lerreur avec une entree echelon')
+plot(t, lsim(FTBF, stepp, t))
+xlabel('Time (s)')
+ylabel('Amplitude')
+xlim([0 10])
+grid on
+
+
+
+%f) Reduction numerique:
+figure()
+pzmap(FTBO_a_bras)
+[R, P, Kq] = residue(NumBO,DenBO)
+poids = abs(R)./real(P)
+[B,A] = residue(R(3),P(3),Kq); %a modifier selon les poids
+tfss = tf(B,A);
+K1 = dcgain(FTBO);
+K2 = dcgain(tfss);
+KK = K2/K1;
+Kn = 1/KK;
+TF = Kn*tfss
+
+figure()
+hold on
+subplot(2,1,1)
+step(FTBO)
+subplot(2,1,2)
+step(TF)
+legend()
+hold off
+figure()
+impulse(FTBO-TF)
 
