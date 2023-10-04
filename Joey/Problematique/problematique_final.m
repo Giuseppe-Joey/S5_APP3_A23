@@ -109,7 +109,7 @@ FTBF_Red_num = Kp*feedback(tfss,Kp)
 
 num_red_phy = [N*Ki*K];
 den_red_phy = [Ra*JmN2Jl Ra*BmN2Bl Kb*Ki]
-FTBO_red_phy = tf(num_red_phy,den_red_phy)
+FTBO_red_phy = tf(num_red_phy*(1/(Ra*JmN2Jl)),den_red_phy*(1/(Ra*JmN2Jl)))
 FTBF_red_phy = Kp*feedback(FTBO_red_phy,Kp)
 
 % Affichage
