@@ -11,16 +11,15 @@
 
 %   DESCRIPTION:    fichier de calculs de la problématique
 
-clc
 close all
-clear all
-
+clear
+clc
 
 %% DONNEES DU PROBLEME
 disp(" Paramètre        Valeur         Unité          Description ");
 disp(" ---------------------------------------------------------- ");
 Kp =            0.318;          % V/rad
-K =             100;            %                   gain ampli 
+K =             100;            % gain ampli 
 tau =           0.01;           % Cste de temps ampli en seconde
 Ki =            0.5;            % Cste de couple du moteur en N-m/A
 Kb =            0.5;            % Cste de force contreélectromotrice (fcém) du moteur en V/rad/s
@@ -45,34 +44,7 @@ fprintf("    N              %.1f                           facteur de réduction
 fprintf("    JL             %.0f             N.m s2/rad         inertie charge \n", JL) 
 fprintf("    BL             %.0f             N-m/rad/s       frottement visqueux charge \n", BL)
 
-
-
-
-
-
 %% Construction du modele ABCD
-A = [0          1                                               0                           0;
-    0           -(Bm+(N^2)*BL)/(Jm+(N^2)*JL)        N*Ki/(Jm+(N^2)*JL)                      0;
-    0           -Kb/(La*N)                                      -Ra/La                      1/La;
-    0           0                                                0                          -1/tau];
-
-B = [   0;
-        0;
-        0;
-        K/tau];
-
-C = [1      0       0       0];
-
-D = [0];
-
-
-% on utilise ss2tf pour avoir le num et den de la fonction de transfert
-[num, den] = ss2tf(A, B, C, D);
-FTBO = tf(num, den)
-
-
-
-%b) Matrice / eq d'état:
 JmN2Jl = Jm + (N.^2)*JL;
 BmN2Bl = Bm + (N.^2)*BL;
 
@@ -115,7 +87,6 @@ xlim([0 10])
 grid on
 
 
-
 %f) 2 - Reduction numerique:
 figure('Name','PZmap FTBO')
 pzmap(FTBO)
@@ -134,57 +105,77 @@ tfss = tf(B,A);
 TF = tfss
 FTBF_Red_num = Kp*feedback(tfss,Kp)
 
+% Rduction physique
+
+num_red_phy = [N*Ki*K];
+den_red_phy = [Ra*JmN2Jl Ra*BmN2Bl Kb*Ki]
+FTBO_red_phy = tf(num_red_phy,den_red_phy)
+FTBF_red_phy = Kp*feedback(FTBO_red_phy,Kp)
+
+% Affichage
+
 figure('Name','Réponse à un échelon en BO')
 hold on
-subplot(2,1,1)
+subplot(3,1,1)
 step(FTBO)
 legend('FTBO')
 grid on
-subplot(2,1,2)
+subplot(3,1,2)
 step(TF)
-legend('FTBO_reduite')
+legend('FTBO_reduite num')
+grid on
+subplot(3,1,3)
+step(FTBO_red_phy)
+legend('FTBO_reduite physique')
 grid on
 hold off
 
 figure('Name','Réponse Impulsionnelle en BO')
 hold on
-subplot(2,1,1)
+subplot(3,1,1)
 impulse(FTBO)
 legend('FTBO')
 grid on
-subplot(2,1,2)
+subplot(3,1,2)
 impulse(TF)
-legend('FTBO_reduite')
+legend('FTBO_reduite num')
+grid on
+subplot(3,1,3)
+impulse(FTBO_red_phy)
+legend('FTBO_reduite physique')
 grid on
 
 % En BF
 figure('Name','Réponse à un échelon en BF')
 hold on
-subplot(2,1,1)
+subplot(3,1,1)
 step(FTBF)
 legend('FTBF')
 grid on
-subplot(2,1,2)
+subplot(3,1,2)
 step(FTBF_Red_num)
-legend('FTBF_reduite')
+legend('FTBF_reduite num')
+grid on
+subplot(3,1,3)
+step(FTBF_red_phy)
+legend('FTBF_reduite physique')
 grid on
 hold off
 
 figure('Name','Réponse Impulsionnelle en BF')
 hold on
-subplot(2,1,1)
+subplot(3,1,1)
 impulse(FTBF)
 legend('FTBF')
 grid on
-subplot(2,1,2)
+subplot(3,1,2)
 impulse(FTBF_Red_num)
-legend('FTBF_reduite')
+legend('FTBF_reduite num')
 grid on
-
-
-
-
-
+subplot(3,1,3)
+impulse(FTBF_red_phy)
+legend('FTBF_reduite physique')
+grid on
 
 %% partie identification
 load donnees_moteur_2016
@@ -210,10 +201,4 @@ A = inv(R)*P
 Bm = (0.0649/A(1)) - 0.031
 Jm = -A(2)*(Bm + 0.031)
 
-
-
-
-
-
-%% réduction physique
 
